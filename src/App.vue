@@ -1,17 +1,15 @@
 <template>
   <div id="app">
     <NavigationBar/>
-    <MainPage/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import MainPage from '@/components/MainPage';
 import NavigationBar from '@/components/NavigationBar';
 export default {
   name: 'App',
   components: {
-    MainPage,
     NavigationBar
   }
 }
@@ -20,5 +18,19 @@ export default {
 <style>
 #app {
   height: 100vh;
+}
+button.transparent {
+  margin: 5px;
+  background: transparent;
+  border: none;
+}
+input.transparent {
+  width: 100%;
+  border: none;
+}
+input.transparent:focus {
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 </style>
