@@ -1,6 +1,9 @@
 <template>
   <div class="main-page">
     <div class="left-menu" @click.self="onEditNoteEnd()">
+      <button class="transparent" @click="onClickButtonSave">
+        <i class="fas fa-save"></i>SAVE
+      </button>
       <draggable :list="noteLists" group="notes">
         <NoteItem
           v-for="(note, index) in noteLists"
@@ -80,9 +83,23 @@ export default {
       return searchSelectedPath(this.noteLists);
     },
   },
+  created () {
+    const localData = localStorage.getItem('noteItem');
+    if (localData != null)  {
+      this.noteLists = JSON.parse(localData);
+    }
+  },
   methods: {
     onClickButtonAdd () {
       this.onAddNoteCommon(this.noteLists);
+    },
+    onClickButtonSave () {
+      localStorage.setItem('noteItem', JSON.stringify(this.noteLists));
+      this.$toasted.show('Note saved.', {
+        position: 'top-left',
+        duration: 1000,
+        type: 'success'
+      });
     },
     onAddNoteCommon (targetLists, layer, index) {
       layer = layer || 1;
