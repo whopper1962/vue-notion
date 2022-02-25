@@ -95,7 +95,7 @@ export default {
     },
     onClickButtonSave () {
       localStorage.setItem('noteItem', JSON.stringify(this.noteLists));
-      this.$toasted.show('Note saved.', {
+      this.$toasted.show('SAVED!', {
         position: 'top-left',
         duration: 1000,
         type: 'success'
