@@ -1,44 +1,71 @@
 <template>
-  <div class="note"
-    @mouseover="onMouseOver()"
-    @mouseleave="onMouseLeave()"
-    :class="{mouseover: note.mouseover && !note.editing}"
-  >
-    <template v-if="note.editing">
-      <input v-model="note.name" class="transparent" @keypress.enter="onEditEnd" />
-    </template>
-    <template v-else>
-      <div class="note-icon">
-        <i class="fas fa-file-alt"></i>
-      </div>
-      <div class="note-name">{{note.name}}</div>
-      <div v-show="note.mouseover" class="buttons">
-        <div class="button-icon">
-          <i class="fas fa-sitemap"></i>
+  <div class="note-family">
+    <div
+      class="note"
+      @mouseover="onMouseOver()"
+      @mouseleave="onMouseLeave()"
+      :class="{mouseover: note.mouseover && !note.editing}"
+    >
+      <template v-if="note.editing">
+        <input v-model="note.name" class="transparent" @keypress.enter="onEditEnd" />
+      </template>
+      <template v-else>
+        <div class="note-icon">
+          <i class="fas fa-file-alt"></i>
         </div>
-        <div class="button-icon">
-          <i class="fas fa-plus-circle"></i>
+        <div class="note-name">{{note.name}}</div>
+        <div v-show="note.mouseover" class="buttons">
+          <div class="button-icon" v-if="layer < 3" @click="onClickChildNote(note)">
+            <i class="fas fa-sitemap"></i>
+          </div>
+          <div class="button-icon" @click="onClickAddNoteAfter(parentNote, note)">
+            <i class="fas fa-plus-circle"></i>
+          </div>
+          <div class="button-icon" @click="onClickEdit(note)">
+            <i class="fas fa-edit"></i>
+          </div>
+          <div class="button-icon" @click="onClickDelete(parentNote ,note)">
+            <i class="fas fa-trash"></i>
+          </div>
         </div>
-        <div class="button-icon" @click="onClickEdit(note)">
-          <i class="fas fa-edit"></i>
-        </div>
-        <div class="button-icon" @click="onClickDelete(note)">
-          <i class="fas fa-trash"></i>
-        </div>
-      </div>
-    </template>
+      </template>
+    </div>
+    <div class="child-note">
+      <draggable :list="note.children" group="notes">
+        <NoteItem
+          v-for="(childNote, index) in note.children"
+          :note="childNote"
+          :key="`child_${index}`"
+          :layer="layer + 1"
+          :parentNote="note"
+          @delete="onClickDelete"
+          @editStart="onClickEdit"
+          @editEnd="onEditEnd"
+          @addChild="onClickChildNote"
+          @addNoteAfter="onClickAddNoteAfter"
+        />
+      </draggable>
+    </div>
   </div>
 </template>
 
 <script>
+import draggable from 'vuedraggable';
+
 export default {
+  name: 'NoteItem',
+  components: {
+    draggable
+  },
   data () {
     return {
       mouseOver: false
     };
   },
   props: {
-    note: {type: Object}
+    note: { type: Object },
+    parentNote: { type: Object },
+    layer: { type: Number }
   },
   methods: {
     onMouseOver () {
@@ -47,8 +74,8 @@ export default {
     onMouseLeave () {
       this.note.mouseover = false;
     },
-    onClickDelete (note) {
-      this.$emit('delete', note);
+    onClickDelete (parentNote, note) {
+      this.$emit('delete', parentNote, note);
     },
     onClickEdit (note) {
       this.$emit('editStart', note);
@@ -56,6 +83,12 @@ export default {
     onEditEnd () {
       this.$emit('editEnd');
     },
+    onClickChildNote (note) {
+      this.$emit('addChild', note);
+    },
+    onClickAddNoteAfter (parentNote, note) {
+      this.$emit('addNoteAfter', parentNote, note);
+    }
   }
 }
 </script>
@@ -90,5 +123,8 @@ export default {
       border-radius: 5px;
     }
   }
+}
+.child-note {
+  padding-left: 10px;
 }
 </style>
