@@ -44,7 +44,7 @@
             />
           </draggable>
           <button class="transparent" @click="onClickButtonAddWidget">
-            <i class="fas fa-plus-square"></i>ADD WIDGET
+            <i class="fas fa-plus-square"></i>ADD CONTENT
           </button>
         </div>
       </template>

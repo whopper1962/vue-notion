@@ -1,10 +1,6 @@
 <template>
   <div class="event-page">
-    <h2>Lesson1:Event</h2>
-    <h3><span class="badge badge-secondary">Vue.js</span></h3>
-    <span>クリックされた回数は{{count}}回です </span><br><br>
-    <button id="button" class="btn btn-sm btn-info" @click="onClickButton()">Click Me</button><br><br>
-    <button class="btn btn-sm btn-info" @click="onClickReset()">RESET</button>
+    <h2>CONTENT3</h2>
   </div>
 </template>
 

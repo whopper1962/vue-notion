@@ -1,9 +1,6 @@
 <template>
   <div class="binding-page">
-    <h2>Lesson1:Binding</h2>
-    <h3><span class="badge badge-secondary">Vue.js</span></h3>
-    <input class="form-control" v-model="name">
-    <span>入力された名前は{{name}}です</span>
+    <h2>CONTENT1</h2>
   </div>
 </template>
 
