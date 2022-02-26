@@ -1,9 +1,6 @@
 <template>
   <div class="directive-page">
-    <h2>Lesson2:Directive</h2>
-    <h3><span class="badge badge-secondary">Vue.js</span></h3>
-    <input type="checkbox" v-model="checked">
-    <span v-show="checked">チェック時だけ見えるよ</span>
+    <h2>CONTENT2</h2>
   </div>
 </template>
 
